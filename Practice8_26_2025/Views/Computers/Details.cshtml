@@ -1,0 +1,109 @@
+@model Practice8_26_2025_Copy.Models.Computer
+
+@{
+    ViewData["Title"] = "Computer Details";
+}
+
+<h1>Computer Details</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4>@Model.Brand @Model.Model</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <dl class="row">
+                            <dt class="col-sm-4">Brand</dt>
+                            <dd class="col-sm-8">@Model.Brand</dd>
+
+                            <dt class="col-sm-4">Model</dt>
+                            <dd class="col-sm-8">@Model.Model</dd>
+
+                            <dt class="col-sm-4">Processor</dt>
+                            <dd class="col-sm-8">@Model.Processor</dd>
+
+                            <dt class="col-sm-4">RAM</dt>
+                            <dd class="col-sm-8">@Model.RamGB GB</dd>
+
+                            <dt class="col-sm-4">Storage</dt>
+                            <dd class="col-sm-8">@Model.StorageGB GB @Model.StorageType</dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-6">
+                        <dl class="row">
+                            <dt class="col-sm-4">Operating System</dt>
+                            <dd class="col-sm-8">@Model.OperatingSystem</dd>
+
+                            <dt class="col-sm-4">Year Manufactured</dt>
+                            <dd class="col-sm-8">@(Model.YearManufactured?.ToString() ?? "N/A")</dd>
+
+                            <dt class="col-sm-4">Purchase Price</dt>
+                            <dd class="col-sm-8">@(Model.PurchasePrice?.ToString("C") ?? "N/A")</dd>
+
+                            <dt class="col-sm-4">Date Added</dt>
+                            <dd class="col-sm-8">@Model.DateAdded.ToString("MM/dd/yyyy HH:mm")</dd>
+
+                            <dt class="col-sm-4">Status</dt>
+                            <dd class="col-sm-8">
+                                @if (Model.IsActive)
+                                {
+                                    <span class="badge badge-success">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-secondary">Inactive</span>
+                                }
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.Notes))
+                {
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <dt>Notes</dt>
+                            <dd>@Model.Notes</dd>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit Computer</a>
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete Computer</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5>Specifications Summary</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled">
+                    <li><strong>CPU:</strong> @Model.Processor</li>
+                    <li><strong>Memory:</strong> @Model.RamGB GB</li>
+                    <li><strong>Storage:</strong> @Model.StorageGB GB @Model.StorageType</li>
+                    <li><strong>OS:</strong> @Model.OperatingSystem</li>
+                    @if (Model.YearManufactured.HasValue)
+                    {
+                        <li><strong>Age:</strong> @(DateTime.Now.Year - Model.YearManufactured.Value) years old</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div> 

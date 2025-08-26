@@ -1,0 +1,89 @@
+@model IEnumerable<Practice8_26_2025_Copy.Models.Computer>
+
+@{
+    ViewData["Title"] = "Computer Inventory";
+}
+
+<h1>Computer Inventory</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Add New Computer</a>
+</p>
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        <form asp-action="Index" method="get" class="form-inline">
+            <div class="input-group">
+                <input type="text" name="SearchString" class="form-control" placeholder="Search by brand, model, or processor..." value="@ViewData["CurrentFilter"]" />
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-outline-secondary">Search</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Clear</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["BrandSortParm"]">Brand</a>
+                </th>
+                <th>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["ModelSortParm"]">Model</a>
+                </th>
+                <th>Processor</th>
+                <th>RAM</th>
+                <th>Storage</th>
+                <th>OS</th>
+                <th>Year</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Brand</td>
+                    <td>@item.Model</td>
+                    <td>@item.Processor</td>
+                    <td>@item.RamGB GB</td>
+                    <td>@item.StorageGB GB @item.StorageType</td>
+                    <td>@item.OperatingSystem</td>
+                    <td>@(item.YearManufactured?.ToString() ?? "N/A")</td>
+                    <td>@(item.PurchasePrice?.ToString("C") ?? "N/A")</td>
+                    <td>
+                        @if (item.IsActive)
+                        {
+                            <span class="badge badge-success">Active</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-secondary">Inactive</span>
+                        }
+                    </td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">Details</a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info text-center">
+        <h4>No computers found</h4>
+        <p>Start by adding your first computer to the inventory.</p>
+        <a asp-action="Create" class="btn btn-primary">Add Computer</a>
+    </div>
+} 

@@ -1,0 +1,79 @@
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to Computer Inventory System</h1>
+    <p class="lead">Manage and track your computer assets efficiently</p>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Total Computers</h5>
+                <p class="card-text display-6">@ViewBag.ComputerCount</p>
+                <a asp-controller="Computers" asp-action="Index" class="btn btn-light">View All</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Add New Computer</h5>
+                <p class="card-text">Register a new computer to your inventory</p>
+                <a asp-controller="Computers" asp-action="Create" class="btn btn-light">Add Computer</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-info mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Quick Search</h5>
+                <p class="card-text">Find computers by brand, model, or processor</p>
+                <a asp-controller="Computers" asp-action="Index" class="btn btn-light">Search</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (ViewBag.RecentComputers != null && ((List<Computer>)ViewBag.RecentComputers).Any())
+{
+    <div class="row mt-4">
+        <div class="col-12">
+            <h3>Recently Added Computers</h3>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Brand</th>
+                            <th>Model</th>
+                            <th>Processor</th>
+                            <th>RAM</th>
+                            <th>Storage</th>
+                            <th>Date Added</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var computer in (List<Practice8_26_2025_Copy.Models.Computer>)ViewBag.RecentComputers)
+                        {
+                            <tr>
+                                <td>@computer.Brand</td>
+                                <td>@computer.Model</td>
+                                <td>@computer.Processor</td>
+                                <td>@computer.RamGB GB</td>
+                                <td>@computer.StorageGB GB @computer.StorageType</td>
+                                <td>@computer.DateAdded.ToString("MM/dd/yyyy")</td>
+                                <td>
+                                    <a asp-controller="Computers" asp-action="Details" asp-route-id="@computer.Id" class="btn btn-sm btn-outline-primary">Details</a>
+                                    <a asp-controller="Computers" asp-action="Edit" asp-route-id="@computer.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+} 
