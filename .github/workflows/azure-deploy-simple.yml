@@ -1,17 +1,16 @@
-name: Deploy to Azure Web App
+name: Deploy to Azure Web App - Simple
 
 on:
   push:
     branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+  workflow_dispatch:
 
 env:
   AZURE_WEBAPP_NAME: alphageek
   DOTNET_VERSION: '8.0.x'
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     
     steps:
@@ -42,5 +41,5 @@ jobs:
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: ./publish
 
-    - name: Deployment Status
-      run: echo "Deployment completed successfully!"
+    - name: Success
+      run: echo "✅ Successfully deployed to Azure Web App: ${{ env.AZURE_WEBAPP_NAME }}"
